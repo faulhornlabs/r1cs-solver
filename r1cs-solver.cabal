@@ -1,0 +1,122 @@
+Cabal-Version:        2.4
+Name:                 r1cs-solver
+Version:              0.1
+Synopsis:             R1CS soundness checking tool
+
+Description:          Parsing and heuristically solving R1CS constraints,
+                      intended as a tool to help checking the soundness of
+                      arithmetic circuits (written in circom).
+
+License:              BSD-3-Clause
+License-file:         LICENSE
+Author:               Balazs Komuves
+Copyright:            (c) 2023 Faulhorn Labs
+Maintainer:           balazs.komuves (at) faulhornlabs (dot) com
+Stability:            Experimental
+Category:             Math, Cryptography
+Tested-With:          GHC == 8.6.5, GHC == 9.0.1
+Build-Type:           Simple
+
+--------------------------------------------------------------------------------
+
+Data-Files:           examples/circuits/simple/*.circom
+                      examples/circuits/zkp-mooc-lab/*.circom
+                      examples/circuits/circomlib/*.circom
+
+extra-doc-files:      README.md
+                      examples/README.md
+                      examples/circuits/circomlib/README.md
+
+--------------------------------------------------------------------------------
+
+Library
+
+  Build-Depends:        base >= 4 && < 5, 
+                        split >= 0.2,
+                        array >= 0.5,
+                        containers >= 0.6, 
+                        parsec1 >= 1,
+                        mtl >= 2,
+                        filepath >= 1.2,
+                        directory >= 1.2,
+                        process >= 1.2,
+                        random >= 1.1,
+                        --
+                        -- and the aeson dependencies:
+                        aeson >= 2,
+                        unordered-containers >= 0.2.10, 
+                        bytestring >= 0.10,
+                        text >= 1.2,
+                        vector >= 0.11,
+                        scientific
+                        
+  Exposed-Modules:      R1CS
+                        R1CS.Solver
+                        R1CS.Compile
+                        R1CS.Constraints
+                        R1CS.Witness
+                        R1CS.Test.Spec
+                        R1CS.Test.Runner
+                        R1CS.Parser.SymFile
+                        R1CS.Parser.Constraint.JSON
+                        R1CS.Parser.Constraint.Text
+                        R1CS.Parser.WtnsJSON
+                        R1CS.Algebra.TestField
+                        R1CS.Params
+                        R1CS.Misc
+
+  Other-Modules:        R1CS.Algebra.SmallField
+
+  Default-Language:     Haskell2010
+  Default-Extensions:   CPP, BangPatterns, TypeApplications, KindSignatures
+
+  Hs-Source-Dirs:       src
+
+  ghc-options:          -fwarn-tabs -fno-warn-unused-matches -fno-warn-name-shadowing -fno-warn-unused-imports                        
+
+--------------------------------------------------------------------------------
+
+executable r1cs-solver-examples
+
+  main-is:              Main.hs
+
+  Build-Depends:        base >= 4 && < 5, 
+                        containers >= 0.6, 
+                        filepath >= 1.2,
+                        random >= 1.1,
+                        r1cs-solver
+                        
+  Other-Modules:        Simple.Main
+                        Simple.Common
+                        Simple.Misc.IsBoolean
+                        Simple.Misc.SumOfCubes
+                        Simple.Misc.StdBasis
+                        Simple.Misc.Fibonacci
+                        Simple.Misc.RightShift
+                        MOOC.Main
+                        MOOC.Common
+                        MOOC.Lab.Num2Bits
+                        MOOC.Lab.LessThan
+                        MOOC.Lab.CheckBitLength
+                        MOOC.Lab.CheckWellFormedness
+                        MOOC.Lab.RightShift
+                        MOOC.Lab.RoundAndCheck
+                        MOOC.Lab.LeftShift
+                        MOOC.Lab.MSNZB
+                        MOOC.Lab.Normalize
+                        MOOC.Lab.FloatAdd
+                        CircomLib.Main
+                        CircomLib.Common
+                        CircomLib.Lib.Switcher
+                        CircomLib.Lib.ForceEqualIfEnabled
+                        CircomLib.Lib.Comparators
+                        CircomLib.Lib.MultiAND
+                        CircomLib.Lib.MultiMux
+
+  Hs-Source-Dirs:       examples/tests
+
+  Default-Language:     Haskell2010
+  Default-Extensions:   CPP, BangPatterns, TypeApplications, KindSignatures
+
+--------------------------------------------------------------------------------
+
